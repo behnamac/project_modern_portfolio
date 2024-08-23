@@ -1,16 +1,15 @@
 import React from "react";
 import "./app.scss";
+import NavBar from "./components/navbar/NavBar";
 const App = () => {
   return (
     <div>
-      <section><a href="">Hero</a></section>
-      <section>Prallex</section>
-      <section>Services</section>
-      <section>Prallex</section>
-      <section>Portfolio1</section>
-      <section>Portfolio2</section>
-      <section>Portfolio3</section>
-      <section>Contact</section>
+      <NavBar />
+      <section id="HomePage">Prallex</section>
+      <section id="Services">Services</section>
+      <section id="Portfolio">Portfolio1</section>
+      <section id="Contact">Portfolio1</section>
+      <section id="About">About</section>
     </div>
   );
 };
