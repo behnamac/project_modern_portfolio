@@ -17,7 +17,7 @@ const NavBar = () => {
           animate={spanAnimation.animate}
           transition={spanAnimation.duration}
         >
-          Behnam Sepehri's Official website
+          Welcome to my Official website
         </motion.span>
         <div className="social">
           <a href="#">
