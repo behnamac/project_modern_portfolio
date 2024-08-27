@@ -3,6 +3,7 @@ import "./app.scss";
 import NavBar from "./components/navbar/NavBar";
 import Hero from "./components/Hero/Hero";
 import Parallex from "./components/Parallex/Parallex";
+import Services from "./components/Services/Services";
 const App = () => {
   return (
     <div>
@@ -10,8 +11,11 @@ const App = () => {
         <NavBar />
         <Hero />
       </section>
+      <section id="Parallex">
+        <Parallex type="parallex" />
+      </section>
       <section id="Services">
-        <Parallex type="services" />
+        <Services />
       </section>
       <section id="Portfolio">
         <Parallex type="potfolio" />
