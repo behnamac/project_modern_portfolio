@@ -11,6 +11,7 @@
     align-items: center;
     gap: 20px;
     p {
+      margin-right: 40px;
       font-weight: 200;
       font-size: 20px;
       color: gray;
@@ -39,7 +40,7 @@
         object-fit: cover;
       }
       h1 {
-        font-size: 96px;
+        font-size: 90px;
         font-weight: 100;
       }
       button {
@@ -58,15 +59,20 @@
     display: flex;
     max-width: 1366px;
     margin: auto;
+    margin-bottom: 50px;
 
     .box {
-      padding   : 50px;
+      padding: 50px;
       border: 0.5px solid gray;
       display: flex;
       justify-content: space-between;
       flex-direction: column;
+      h2 {
+        padding-bottom: 20px;
+      }
       button {
         padding: 10px;
+        margin-top: 20px;
         background-color: orange;
         border: none;
         cursor: pointer;
