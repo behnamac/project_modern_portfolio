@@ -5,6 +5,7 @@ import Hero from "./components/Hero/Hero";
 import Parallex from "./components/Parallex/Parallex";
 import Services from "./components/Services/Services";
 import Portfolio from "./components/Portfolio/Portfolio";
+import Contact from "./components/Contact/Contact";
 const App = () => {
   return (
     <div>
@@ -24,7 +25,9 @@ const App = () => {
       <section id="Portfolio">
         <Portfolio />
       </section>
-      <section id="Contact">Portfolio1</section>
+      <section id="Contact">
+        <Contact />
+      </section>
       <section id="About">About</section>
     </div>
   );
