@@ -23,7 +23,7 @@ const App = () => {
         <Parallex type="Parallex2" />
       </section>
       <section id="Portfolio">
-        <Portfolio />
+        {/* <Portfolio /> */}
       </section>
       <section id="Contact">
         <Contact />
