@@ -6,9 +6,11 @@ import Parallex from "./components/Parallex/Parallex";
 import Services from "./components/Services/Services";
 import Portfolio from "./components/Portfolio/Portfolio";
 import Contact from "./components/Contact/Contact";
+import Cursor from "./components/Cursor/Cursor";
 const App = () => {
   return (
     <div>
+      <Cursor />
       <section id="HomePage">
         <NavBar />
         <Hero />
@@ -23,12 +25,12 @@ const App = () => {
         <Parallex type="Parallex2" />
       </section>
       <section id="Portfolio">
-        {/* <Portfolio /> */}
+        {" "}
+        <Portfolio />{" "}
       </section>
       <section id="Contact">
         <Contact />
       </section>
-      <section id="About">About</section>
     </div>
   );
 };
