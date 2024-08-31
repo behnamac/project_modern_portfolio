@@ -22,7 +22,6 @@ const phoneSvgVarients = {
   initial: {
     opacity: 1,
   },
-  whileInView: { opacity: 0 },
   transition: { delay: 3, duration: 1 },
 };
 const formVarients = {
@@ -90,7 +89,7 @@ const Contact = () => {
           className="phoneSvg"
           variants={phoneSvgVarients}
           initial={phoneSvgVarients.initial}
-          animate={phoneSvgVarients.whileInView}
+          animate={isInView && { opacity: 0 }}
           transition={phoneSvgVarients.transition}
         >
           <svg

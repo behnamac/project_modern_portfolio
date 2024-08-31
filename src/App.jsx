@@ -7,6 +7,7 @@ import Services from "./components/Services/Services";
 import Portfolio from "./components/Portfolio/Portfolio";
 import Contact from "./components/Contact/Contact";
 import Cursor from "./components/Cursor/Cursor";
+
 const App = () => {
   return (
     <div>
@@ -15,19 +16,16 @@ const App = () => {
         <NavBar />
         <Hero />
       </section>
-      <section id="Parallex">
-        <Parallex type="parallex" />
-      </section>
       <section id="Services">
+        <Parallex type="services" />
+      </section>
+      <section>
         <Services />
       </section>
-      <section id="Parallex2">
-        <Parallex type="Parallex2" />
-      </section>
       <section id="Portfolio">
-        {" "}
-        <Portfolio />{" "}
+        <Parallex type="portfolio" />
       </section>
+      <Portfolio />
       <section id="Contact">
         <Contact />
       </section>

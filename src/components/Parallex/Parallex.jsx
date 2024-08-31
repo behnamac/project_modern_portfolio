@@ -1,3 +1,4 @@
+
 import { useRef } from "react";
 import "./Parallex.scss";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -14,7 +15,7 @@ const Parallex = ({ type }) => {
 
   const backGroundType = {
     background:
-      type === "parallex"
+      type === "portfolio"
         ? "linear-gradient(180deg, #111132, #0c0c1d)"
         : "linear-gradient(180deg, #111132, #505064)",
   };
@@ -22,7 +23,7 @@ const Parallex = ({ type }) => {
   return (
     <div className="parallex" ref={ref} style={backGroundType}>
       <motion.h1 style={{ y: YText }}>
-        {type === "parallex" ? "What I do?" : "What I did?"}
+        {type === "portfolio" ? "What I do?" : "What I did?"}
       </motion.h1>
       <motion.div className="mountains"></motion.div>
       <motion.div
@@ -30,7 +31,7 @@ const Parallex = ({ type }) => {
         style={{
           y: yBg,
           backgroundImage: `url(${
-            type === "parallex" ? "./planets.png" : "./planets2.png"
+            type === "portfolio" ? "./planets.png" : "./planets2.png"
           })`,
         }}
       ></motion.div>
