@@ -31,6 +31,7 @@
         font-size: 40px;
         @include mobile {
           font-size: 20px;
+          z-index: 99;
         }
       }
     }
@@ -45,5 +46,6 @@
     top: 25px;
     left: 25px;
     background-color: transparent;
+
   }
 }

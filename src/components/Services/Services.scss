@@ -93,13 +93,25 @@
     max-width: 1366px;
     margin: auto;
     margin-bottom: 50px;
-
+    @include mobile {
+      flex-direction: column;
+      width: 100%;
+    }
+    p {
+      @include mobile {
+        display: none;
+      }
+    }
     .box {
       padding: 50px;
       border: 0.5px solid gray;
       display: flex;
       justify-content: space-between;
       flex-direction: column;
+      @include mobile {
+        border: none;
+        align-items: center;
+      }
       h2 {
         padding-bottom: 20px;
       }
@@ -110,6 +122,9 @@
         border: none;
         cursor: pointer;
         border-radius: 15px;
+        @include mobile {
+         width: 100px;
+        }
       }
     }
   }
