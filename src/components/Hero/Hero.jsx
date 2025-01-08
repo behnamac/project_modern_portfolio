@@ -48,21 +48,25 @@ const Hero = () => {
           initial="initial"
           animate="animate"
         >
-          <motion.h2 variants={textVarients}>Behnam Sepehri</motion.h2>
-          <motion.h1 variants={textVarients}>Front-End Developer</motion.h1>
+          <motion.h2 variants={textVarients}>Hi! I'm John Smith</motion.h2>
+          <motion.h1 variants={textVarients}>A Creative Front-End Developer</motion.h1>
           <motion.div className="buttons" variants={textVarients}>
             <motion.button variants={textVarients}>
               See The Latest Work
             </motion.button>
             <motion.button variants={textVarients}>Contact Me</motion.button>
           </motion.div>
-          <motion.img id="scroll"
-            src="/scroll.png"
-            alt=""
-            variants={textVarients}
-            animate="scrollButton"
-          />
         </motion.div>
+        <motion.img
+          id="scroll"
+          src="/scroll.png"
+          alt=""
+          variants={textVarients}
+          animate="scrollButton"
+        />
+        <div className="imageContainer">
+          <img src="hero.png" />
+        </div>
       </div>
       <motion.div
         className="slidingTextContainer"
@@ -72,9 +76,6 @@ const Hero = () => {
       >
         Creative Game and Web Developer
       </motion.div>
-      <div className="imageContainer">
-        <img src="hero.png" />
-      </div>
     </div>
   );
 };
