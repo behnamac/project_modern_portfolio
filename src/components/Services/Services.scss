@@ -112,13 +112,12 @@
       display: -webkit-box;
       overflow: hidden;
       @include mobile {
-        -webkit-line-clamp: 2; // This will show 3 lines of text
+        -webkit-line-clamp: 2; 
         -webkit-box-orient: vertical;
         line-clamp: 2;
       }
     }
     .box {
-      background-color: orange;
       padding:2rem;
       border: 0.5px solid gray;
       display: flex;

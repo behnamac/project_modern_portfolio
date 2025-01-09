@@ -28,7 +28,7 @@ const App = () => {
         <Parallex type="portfolio" />
       </section>
       <Portfolio />
-      <section id="Contact">
+       <section id="Contact">
         <Contact />
       </section>
     </div>

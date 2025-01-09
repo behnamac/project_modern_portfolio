@@ -23,7 +23,7 @@ const Parallex = ({ type }) => {
   return (
     <div className="parallex" ref={ref} style={backGroundType}>
       <motion.h1 style={{ y: YText }}>
-        {type === "portfolio" ? "What I do?" : "What I did?"}
+        {type === "portfolio" ? "These are my expertises" : "What I Offer?"}
       </motion.h1>
       <motion.div className="mountains"></motion.div>
       <motion.div
