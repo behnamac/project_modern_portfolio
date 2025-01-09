@@ -16,16 +16,23 @@
     }
     span {
       font-weight: bold;
+      margin-left: 5rem;
       @include mobile {
         display: none;
+      }
+      @include tablet {
+        margin-left: 5rem;
       }
     }
     .social {
       display: flex;
       gap: 20px;
       img {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
+      }
+      @include tablet {
+        margin-right: 1rem;
       }
     }
   }

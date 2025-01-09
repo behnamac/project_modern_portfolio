@@ -10,8 +10,8 @@ const spanAnimation = {
 const NavBar = () => {
   return (
     <div className="navbar">
-      <Sidebar />
       <div className="wrapper">
+      <Sidebar />
         <motion.span
           initial={spanAnimation.initial}
           animate={spanAnimation.animate}
@@ -21,16 +21,16 @@ const NavBar = () => {
         </motion.span>
         <div className="social">
           <a href="#">
-            <img alt="insta" src="public\facebook.png" />
+            <img alt="instagram" src='/insta.svg' />
           </a>
           <a href="#">
-            <img alt="insta" src="public\facebook.png" />
+            <img alt="facebook" src='/facebook.svg' />
           </a>
           <a href="#">
-            <img alt="insta" src="public\facebook.png" />
+            <img alt="linkedin" src='/linkedin.svg' />
           </a>
           <a href="#">
-            <img alt="insta" src="public\facebook.png" />
+            <img alt="twitter" src= '/x.svg' />
           </a>
         </div>
       </div>

@@ -21,7 +21,7 @@ const App = () => {
       <section id="Services">
         <Parallex type="services" />
       </section>
-      {/* <section>
+      <section>
         <Services />
       </section>
       <section id="Portfolio">
@@ -30,7 +30,7 @@ const App = () => {
       <Portfolio />
       <section id="Contact">
         <Contact />
-      </section> */}
+      </section>
     </div>
   );
 };
