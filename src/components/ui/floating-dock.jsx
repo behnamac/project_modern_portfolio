@@ -1,19 +1,30 @@
 /**
- * Adapted from Aceternity UI's Floating Dock
- * (https://ui.aceternity.com/components/floating-dock) for this project:
- * plain JS/JSX (no TypeScript, no shadcn CLI/Next.js here), `framer-motion`
- * instead of the `motion` package (we already depend on framer-motion), no
- * `@tabler/icons-react` dependency (the mobile collapse glyph is inlined
- * below), items open OS windows via `onClick` instead of navigating `href`,
- * and the default look is tuned to this app's glassy dock instead of the
- * demo's plain gray/neutral one.
+ * Aceternity UI — Floating Dock
+ * (https://ui.aceternity.com/components/floating-dock)
  *
- * Layout note: each icon slot has a FIXED box size (SIZE below) so the
- * dock's own outline never resizes as you hover — only a `scale` transform
- * (which doesn't affect layout/flow) bulges the hovered icon, growing up
- * from the bottom edge like the real macOS dock. Animating width/height
- * directly here would make the whole pill-shaped bar visibly stretch as
- * the mouse moves, which is the "rectangle behind the icons expands" bug.
+ * Kept faithful to the published component: same structure (FloatingDock →
+ * FloatingDockDesktop / FloatingDockMobile / IconContainer), and the same
+ * magnification "settings" — distance range [-150, 0, 150] driving a slot that
+ * peaks at 80px, each value fed through a spring of
+ * { mass: 0.1, stiffness: 150, damping: 12 }.
+ *
+ * Sizing is tuned for a macOS dock rather than the demo's nav bar: the slot
+ * rests at 48px (not 40px) and the icon fills its slot instead of sitting at
+ * half that size, so no empty rounded box is ever visible around the artwork;
+ * the gap is 6px (not gap-4) so the icons read as one dock. The bar keeps a
+ * fixed h-16 box — a magnified icon rises out of the top of it the way the
+ * real dock does, instead of making the glass panel itself taller.
+ *
+ * Only what this project cannot take verbatim was changed:
+ *   - plain JSX instead of TypeScript (no TS in this repo),
+ *   - `framer-motion` instead of `motion/react` (already a dependency here),
+ *   - the collapse glyph is inlined rather than pulled from
+ *     `@tabler/icons-react` (the app ships its own icon set),
+ *   - items fire `onClick` to open an OS window instead of navigating `href`,
+ *     and carry an `active` flag for the running-app dot under the icon,
+ *   - the bar and the icon slots wear this app's glass look; the official
+ *     gray icon plate is dropped because the dock icons are full-bleed macOS
+ *     app artwork that would show gray corners on top of it.
  *
  * Note: uses position fixed according to your needs — desktop dock is
  * better positioned at the bottom, mobile dock better at bottom right.
@@ -29,8 +40,8 @@ import {
 } from "framer-motion";
 import { useRef, useState } from "react";
 
-const SIZE = 60; // rest-state icon slot, in px — the dock's box never changes
-const PEAK_SCALE = 1.6; // how large the hovered icon grows relative to SIZE
+const SLOT_REST = 48; // icon slot at rest, in px
+const SLOT_PEAK = 80; // icon slot directly under the cursor
 
 const CollapseGlyph = (props) => (
   <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" {...props}>
@@ -107,7 +118,7 @@ const FloatingDockDesktop = ({ items, className }) => {
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
-        "mx-auto hidden items-end gap-2 rounded-2xl border border-white/20 bg-white/25 px-3 pt-2 pb-2 shadow-xl backdrop-blur-2xl md:flex dark:border-white/10 dark:bg-black/25",
+        "mx-auto hidden h-16 items-end gap-1.5 overflow-visible rounded-2xl border border-white/20 bg-white/25 px-2 pb-1.5 shadow-xl backdrop-blur-2xl md:flex dark:border-white/10 dark:bg-black/25",
         className
       )}
     >
@@ -120,30 +131,42 @@ const FloatingDockDesktop = ({ items, className }) => {
 
 function IconContainer({ mouseX, title, icon, onClick, active }) {
   const ref = useRef(null);
-  const [hovered, setHovered] = useState(false);
 
   const distance = useTransform(mouseX, (val) => {
     const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
     return val - bounds.x - bounds.width / 2;
   });
 
-  // Only `scale` is animated — width/height of the slot stay fixed at SIZE,
-  // so the dock's own bounding box never resizes as the mouse moves.
-  const scaleTransform = useTransform(distance, [-160, 0, 160], [1, PEAK_SCALE, 1]);
-  const scale = useSpring(scaleTransform, { mass: 0.1, stiffness: 150, damping: 12 });
+  // Same shape as the published component ([-150, 0, 150] → rest, peak, rest),
+  // resized for a macOS dock: the slot rests at 48px instead of 40px and the
+  // icon fills its slot rather than sitting at half its size, so there is no
+  // empty box around the artwork at any point of the animation.
+  const widthTransform = useTransform(distance, [-150, 0, 150], [SLOT_REST, SLOT_PEAK, SLOT_REST]);
+  const heightTransform = useTransform(distance, [-150, 0, 150], [SLOT_REST, SLOT_PEAK, SLOT_REST]);
+  const widthTransformIcon = useTransform(distance, [-150, 0, 150], [SLOT_REST, SLOT_PEAK, SLOT_REST]);
+  const heightTransformIcon = useTransform(distance, [-150, 0, 150], [SLOT_REST, SLOT_PEAK, SLOT_REST]);
+
+  const springOpts = { mass: 0.1, stiffness: 150, damping: 12 };
+  const width = useSpring(widthTransform, springOpts);
+  const height = useSpring(heightTransform, springOpts);
+  const widthIcon = useSpring(widthTransformIcon, springOpts);
+  const heightIcon = useSpring(heightTransformIcon, springOpts);
+
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <div className="relative flex flex-col items-center" style={{ width: SIZE }}>
+    <div className="relative flex flex-col items-center">
       <motion.button
         ref={ref}
-        style={{ width: SIZE, height: SIZE, scale, transformOrigin: "bottom" }}
+        style={{ width, height }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={(e) => {
           e.preventDefault();
           onClick?.();
         }}
-        className="relative z-0 flex items-center justify-center rounded-xl hover:z-10 active:brightness-90"
+        whileTap={{ scale: 0.9 }}
+        className="relative flex aspect-square items-center justify-center rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-white/70"
       >
         <AnimatePresence>
           {hovered && (
@@ -151,13 +174,18 @@ function IconContainer({ mouseX, title, icon, onClick, active }) {
               initial={{ opacity: 0, y: 10, x: "-50%" }}
               animate={{ opacity: 1, y: 0, x: "-50%" }}
               exit={{ opacity: 0, y: 2, x: "-50%" }}
-              className="absolute -top-8 left-1/2 w-fit rounded-md border border-black/10 bg-black/80 px-2 py-0.5 text-xs whitespace-pre text-white"
+              className="absolute -top-8 left-1/2 w-fit rounded-md border border-gray-200 bg-gray-100 px-2 py-0.5 text-xs whitespace-pre text-neutral-700 dark:border-neutral-900 dark:bg-neutral-800 dark:text-white"
             >
               {title}
             </motion.div>
           )}
         </AnimatePresence>
-        <div className="flex h-[70%] w-[70%] items-center justify-center">{icon}</div>
+        <motion.div
+          style={{ width: widthIcon, height: heightIcon }}
+          className="flex items-center justify-center"
+        >
+          {icon}
+        </motion.div>
       </motion.button>
       <span
         className={cn(
