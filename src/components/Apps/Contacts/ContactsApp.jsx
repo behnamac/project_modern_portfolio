@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PROFILE } from "@/constants";
+import { GithubGlyph, LinkedinGlyph } from "@/components/icons";
 
 const QUICK_LINKS = [
   {
@@ -12,11 +13,17 @@ const QUICK_LINKS = [
     color: "bg-[#28c840] hover:bg-[#20ad35]",
     href: `mailto:${PROFILE.email}`,
   },
-  { label: "GitHub", color: "bg-[#333] hover:bg-[#222]", href: PROFILE.github },
+  {
+    label: "GitHub",
+    color: "bg-[#333] hover:bg-[#222]",
+    href: PROFILE.github,
+    Icon: GithubGlyph,
+  },
   {
     label: "LinkedIn",
     color: "bg-[#0a66c2] hover:bg-[#08529b]",
     href: PROFILE.linkedin,
+    Icon: LinkedinGlyph,
   },
 ];
 
@@ -48,8 +55,9 @@ const ContactsApp = () => {
             href={l.href}
             target={l.href.startsWith("http") ? "_blank" : undefined}
             rel="noreferrer"
-            className={`rounded-lg px-3 py-3 text-center text-xs font-semibold text-white transition ${l.color}`}
+            className={`flex flex-col items-center gap-1.5 rounded-lg px-3 py-3 text-center text-xs font-semibold text-white transition ${l.color}`}
           >
+            {l.Icon && <l.Icon className="h-4 w-4" />}
             {l.label}
           </a>
         ))}
