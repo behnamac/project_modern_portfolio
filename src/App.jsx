@@ -1,36 +1,24 @@
-import React from "react";
-import "./app.scss";
-import {
-  Navbar,
-  Hero,
-  Parallex,
-  Services,
-  Portfolio,
-  Contact,
-  Cursor,
-} from "./components/index.js";
+import { useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
+import { useOsStore } from "@/store/useOsStore";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import BootScreen from "@/components/Boot/BootScreen";
+import Desktop from "@/components/Desktop/Desktop";
+import MobileApp from "@/components/Mobile/MobileApp";
 
 const App = () => {
+  const booted = useOsStore((s) => s.booted);
+  const theme = useOsStore((s) => s.theme);
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
   return (
-    <div>
-      <Cursor />
-      <section id="HomePage">
-        <Navbar />
-        <Hero />
-      </section>
-      <section id="Services">
-        <Parallex type="services" />
-      </section>
-      <section>
-        <Services />
-      </section>
-      <section id="Portfolio">
-        <Parallex type="portfolio" />
-      </section>
-      <Portfolio />
-       <section id="Contact">
-        <Contact />
-      </section>
+    <div className="h-full w-full">
+      <AnimatePresence>{!booted && <BootScreen key="boot" />}</AnimatePresence>
+      {booted && (isMobile ? <MobileApp /> : <Desktop />)}
     </div>
   );
 };
