@@ -8,6 +8,13 @@
  * and the default look is tuned to this app's glassy dock instead of the
  * demo's plain gray/neutral one.
  *
+ * Layout note: each icon slot has a FIXED box size (SIZE below) so the
+ * dock's own outline never resizes as you hover — only a `scale` transform
+ * (which doesn't affect layout/flow) bulges the hovered icon, growing up
+ * from the bottom edge like the real macOS dock. Animating width/height
+ * directly here would make the whole pill-shaped bar visibly stretch as
+ * the mouse moves, which is the "rectangle behind the icons expands" bug.
+ *
  * Note: uses position fixed according to your needs — desktop dock is
  * better positioned at the bottom, mobile dock better at bottom right.
  */
@@ -21,6 +28,9 @@ import {
   useTransform,
 } from "framer-motion";
 import { useRef, useState } from "react";
+
+const SIZE = 60; // rest-state icon slot, in px — the dock's box never changes
+const PEAK_SCALE = 1.6; // how large the hovered icon grows relative to SIZE
 
 const CollapseGlyph = (props) => (
   <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" {...props}>
@@ -97,7 +107,7 @@ const FloatingDockDesktop = ({ items, className }) => {
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
-        "mx-auto hidden h-16 items-end gap-2 rounded-2xl border border-white/20 bg-white/25 px-3 pb-2.5 shadow-xl backdrop-blur-2xl md:flex dark:border-white/10 dark:bg-black/25",
+        "mx-auto hidden items-end gap-2 rounded-2xl border border-white/20 bg-white/25 px-3 pt-2 pb-2 shadow-xl backdrop-blur-2xl md:flex dark:border-white/10 dark:bg-black/25",
         className
       )}
     >
@@ -117,30 +127,23 @@ function IconContainer({ mouseX, title, icon, onClick, active }) {
     return val - bounds.x - bounds.width / 2;
   });
 
-  const widthTransform = useTransform(distance, [-150, 0, 150], [40, 68, 40]);
-  const heightTransform = useTransform(distance, [-150, 0, 150], [40, 68, 40]);
-  const widthTransformIcon = useTransform(distance, [-150, 0, 150], [24, 38, 24]);
-  const heightTransformIcon = useTransform(distance, [-150, 0, 150], [24, 38, 24]);
-
-  const springOpts = { mass: 0.1, stiffness: 150, damping: 12 };
-  const width = useSpring(widthTransform, springOpts);
-  const height = useSpring(heightTransform, springOpts);
-  const widthIcon = useSpring(widthTransformIcon, springOpts);
-  const heightIcon = useSpring(heightTransformIcon, springOpts);
+  // Only `scale` is animated — width/height of the slot stay fixed at SIZE,
+  // so the dock's own bounding box never resizes as the mouse moves.
+  const scaleTransform = useTransform(distance, [-160, 0, 160], [1, PEAK_SCALE, 1]);
+  const scale = useSpring(scaleTransform, { mass: 0.1, stiffness: 150, damping: 12 });
 
   return (
-    <div className="relative flex flex-col items-center">
+    <div className="relative flex flex-col items-center" style={{ width: SIZE }}>
       <motion.button
         ref={ref}
-        style={{ width, height }}
+        style={{ width: SIZE, height: SIZE, scale, transformOrigin: "bottom" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onClick={(e) => {
           e.preventDefault();
           onClick?.();
         }}
-        whileTap={{ scale: 0.9 }}
-        className="relative flex aspect-square items-center justify-center rounded-xl"
+        className="relative z-0 flex items-center justify-center rounded-xl hover:z-10 active:brightness-90"
       >
         <AnimatePresence>
           {hovered && (
@@ -154,12 +157,7 @@ function IconContainer({ mouseX, title, icon, onClick, active }) {
             </motion.div>
           )}
         </AnimatePresence>
-        <motion.div
-          style={{ width: widthIcon, height: heightIcon }}
-          className="flex items-center justify-center"
-        >
-          {icon}
-        </motion.div>
+        <div className="flex h-[70%] w-[70%] items-center justify-center">{icon}</div>
       </motion.button>
       <span
         className={cn(
