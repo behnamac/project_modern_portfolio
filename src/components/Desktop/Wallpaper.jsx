@@ -1,5 +1,9 @@
 import { useOsStore } from "@/store/useOsStore";
 
+// Shared by the desktop, the boot screen and the mobile shell, so the artwork
+// only has to be set here. The gradient stays underneath the image as the
+// paint-before-load (and load-failure) colour, so the menu bar and desktop
+// icons are never white-on-white for the frame or two before the PNG arrives.
 const Wallpaper = () => {
   const theme = useOsStore((s) => s.theme);
   const dark = theme === "dark";
@@ -13,20 +17,20 @@ const Wallpaper = () => {
           : "radial-gradient(120% 100% at 15% 0%, #a9c9ff 0%, #6f8fe0 40%, #2f4fb0 100%)",
       }}
     >
-      <div
-        className="absolute -left-1/4 top-1/4 h-[70vh] w-[140vw] rotate-[-8deg] blur-3xl"
-        style={{
-          background: dark
-            ? "linear-gradient(100deg, rgba(99,102,241,0.55), rgba(30,41,120,0.15))"
-            : "linear-gradient(100deg, rgba(255,255,255,0.5), rgba(120,150,255,0.1))",
-        }}
+      <img
+        src="/images/wallpaper.png"
+        alt=""
+        aria-hidden="true"
+        className="h-full w-full object-cover"
+        draggable={false}
       />
+      {/* Dark mode dims the artwork so window chrome and the dock's glass keep
+          their contrast against it; light mode leaves it at full strength. */}
       <div
-        className="absolute -right-1/4 bottom-0 h-[60vh] w-[130vw] rotate-[6deg] blur-3xl"
+        className="absolute inset-0 transition-opacity duration-500"
         style={{
-          background: dark
-            ? "linear-gradient(100deg, rgba(30,58,138,0.7), rgba(10,10,30,0))"
-            : "linear-gradient(100deg, rgba(191,227,255,0.7), rgba(120,160,255,0))",
+          background: "rgba(3, 4, 18, 0.45)",
+          opacity: dark ? 1 : 0,
         }}
       />
     </div>
