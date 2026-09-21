@@ -1,88 +1,94 @@
 import { useState } from "react";
 import { PROJECTS } from "@/constants";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { FolderIcon } from "@/components/icons";
+import FinderSidebar from "./FinderSidebar";
+import FinderToolbar from "./FinderToolbar";
+import IconCanvas from "./IconCanvas";
+import ProjectDetail from "./ProjectDetail";
 
+const FOLDER_VIEW = { kind: "folder", projectId: null };
+const projectView = (projectId) => ({ kind: "project", projectId });
+
+// The "Work" folder. Holds the selection plus a small browser-style history
+// stack so the toolbar chevrons actually mean something: opening a folder
+// pushes a project view, Back returns to the icon canvas, Forward re-opens it.
 const FinderApp = ({ initialProjectId }) => {
-  const [selected, setSelected] = useState(initialProjectId || PROJECTS[0].id);
-  const project = PROJECTS.find((p) => p.id === selected);
+  const isMobile = useIsMobile();
+  const [selectedId, setSelectedId] = useState(initialProjectId || null);
+  // Opened from a desktop folder, we seed two entries so Back lands on Work.
+  const [nav, setNav] = useState(() =>
+    initialProjectId
+      ? { stack: [FOLDER_VIEW, projectView(initialProjectId)], index: 1 }
+      : { stack: [FOLDER_VIEW], index: 0 }
+  );
+
+  const view = nav.stack[nav.index];
+  const project = PROJECTS.find((p) => p.id === view.projectId);
+
+  const navigate = (next) =>
+    setNav((n) => {
+      const current = n.stack[n.index];
+      if (current.kind === next.kind && current.projectId === next.projectId) return n;
+      // Navigating from the middle of the stack drops the forward entries,
+      // exactly like a browser.
+      const stack = [...n.stack.slice(0, n.index + 1), next];
+      return { stack, index: stack.length - 1 };
+    });
+
+  const showFolder = () => {
+    setSelectedId(null);
+    navigate(FOLDER_VIEW);
+  };
+
+  const revealProject = (id) => {
+    setSelectedId(id);
+    navigate(FOLDER_VIEW);
+  };
+
+  const openProject = (id) => {
+    setSelectedId(id);
+    navigate(projectView(id));
+  };
 
   return (
-    <div className="flex h-full text-sm">
-      <aside className="w-52 shrink-0 border-r border-black/10 bg-black/[0.03] p-3 dark:border-white/10 dark:bg-white/[0.03]">
-        <p className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-wide text-black/40 dark:text-white/40">
-          Favorites
-        </p>
-        <ul className="space-y-0.5">
-          {PROJECTS.map((p) => (
-            <li key={p.id}>
-              <button
-                onClick={() => setSelected(p.id)}
-                className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left transition ${
-                  selected === p.id
-                    ? "bg-blue-500 text-white"
-                    : "hover:bg-black/5 dark:hover:bg-white/10"
-                }`}
-              >
-                <span className="h-4 w-4 shrink-0">
-                  <FolderIcon />
-                </span>
-                <span className="truncate">{p.folder}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </aside>
+    <div className="flex h-full select-none text-sm">
+      {/* The 208px sidebar would eat most of a phone viewport. */}
+      {!isMobile && (
+        <FinderSidebar
+          inFolderView={view.kind === "folder"}
+          selectedId={selectedId}
+          onShowFolder={showFolder}
+          onRevealProject={revealProject}
+          onOpenProject={openProject}
+        />
+      )}
 
-      <section className="mac-scroll flex-1 overflow-auto p-6">
-        {project && (
-          <div className="max-w-lg">
-            <div className="mb-4 flex items-center gap-3">
-              <span className="h-10 w-10">
-                <FolderIcon />
-              </span>
-              <div>
-                <h2 className="text-lg font-semibold">{project.name}</h2>
-                <p className="text-xs text-black/40 dark:text-white/40">{project.folder}</p>
-              </div>
-            </div>
-            <p className="mb-4 leading-relaxed text-black/80 dark:text-white/80">
-              {project.description}
-            </p>
-            <div className="mb-5 flex flex-wrap gap-1.5">
-              {project.tech.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full bg-black/[0.06] px-2.5 py-1 text-xs font-medium dark:bg-white/10"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-lg bg-blue-500 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-blue-600"
-                >
-                  View Live
-                </a>
-              )}
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-lg bg-black/[0.06] px-3.5 py-1.5 text-xs font-semibold hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20"
-                >
-                  View on GitHub
-                </a>
-              )}
-            </div>
-          </div>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <FinderToolbar
+          title={view.kind === "folder" ? "Work" : project?.folder || "Work"}
+          icon={<FolderIcon />}
+          canBack={nav.index > 0}
+          canForward={nav.index < nav.stack.length - 1}
+          onBack={() => setNav((n) => (n.index > 0 ? { ...n, index: n.index - 1 } : n))}
+          onForward={() =>
+            setNav((n) =>
+              n.index < n.stack.length - 1 ? { ...n, index: n.index + 1 } : n
+            )
+          }
+        />
+
+        {view.kind === "folder" ? (
+          <IconCanvas
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+            onOpen={openProject}
+            floating={!isMobile}
+          />
+        ) : (
+          <ProjectDetail project={project} />
         )}
-      </section>
+      </div>
     </div>
   );
 };

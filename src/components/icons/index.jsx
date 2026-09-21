@@ -73,3 +73,19 @@ export const GithubGlyph = (props) => (
 export const LinkedinGlyph = (props) => (
   <img src="/icons/linkedin.svg" alt="LinkedIn" className="h-4 w-4" {...props} />
 );
+
+// No chevron ships in the asset kit, so this stays an inline glyph (same
+// approach as the traffic-light glyphs in Window.jsx).
+export const ChevronGlyph = ({ direction = "left" }) => (
+  <svg
+    viewBox="0 0 12 12"
+    className="h-3 w-3"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d={direction === "left" ? "M7.5 2.5 4 6l3.5 3.5" : "M4.5 2.5 8 6l-3.5 3.5"} />
+  </svg>
+);

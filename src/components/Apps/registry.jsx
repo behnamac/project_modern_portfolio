@@ -19,11 +19,12 @@ import {
 
 export const APP_REGISTRY = {
   finder: {
-    title: "Finder — Projects",
+    title: "Finder — Work",
     icon: <FinderIcon />,
     dockIcon: <FinderIcon />,
     component: FinderApp,
-    size: { width: 760, height: 480 },
+    // The icon view needs room to drag folders around in.
+    size: { width: 900, height: 560 },
   },
   safari: {
     title: "Safari",
