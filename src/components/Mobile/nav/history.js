@@ -11,7 +11,16 @@ import { useMobileStore } from "@/store/useMobileStore";
 // never an effect: StrictMode double-invokes effects in dev and would push
 // two entries per navigation.
 
+// How many of our markers are still on the stack. Going home has to unwind
+// ALL of them at once, so it needs a count rather than a single back().
+let markers = 0;
+
+// Set while a history.go(-n) issued by requestHome is in flight, so the
+// popstate it produces closes the app instead of popping one screen.
+let homing = false;
+
 export const pushMarker = () => {
+  markers += 1;
   window.history.pushState({ iosNav: true }, "");
 };
 
@@ -25,8 +34,33 @@ export const requestBack = () => {
   }
 };
 
+// Straight to the home screen from any depth, the way the iOS home gesture
+// works. Unwinds every marker in one traversal so the browser's own back
+// button cannot walk back into the app we just closed.
+export const requestHome = () => {
+  if (markers > 0 && window.history.state?.iosNav) {
+    homing = true;
+    window.history.go(-markers);
+  } else {
+    markers = 0;
+    useMobileStore.getState().goHome();
+  }
+};
+
 export const installHistoryBridge = () => {
-  const onPopState = () => useMobileStore.getState().back();
+  const onPopState = () => {
+    // A go(-n) traversal fires one popstate, not n. Any extra a browser does
+    // fire lands here with homing already false and no app open, and back()
+    // no-ops in that state.
+    if (homing) {
+      homing = false;
+      markers = 0;
+      useMobileStore.getState().goHome();
+      return;
+    }
+    markers = Math.max(0, markers - 1);
+    useMobileStore.getState().back();
+  };
   window.addEventListener("popstate", onPopState);
   return () => window.removeEventListener("popstate", onPopState);
 };

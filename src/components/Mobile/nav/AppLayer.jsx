@@ -9,7 +9,7 @@ import { pushMarker } from "./history";
 // One open app, filling the screen. Owns the launch/close zoom, because
 // framer-motion 10's AnimatePresence does not propagate exits to nested
 // presences — so the animation has to live at this level, not inside NavStack.
-const AppLayer = ({ appId, launchRect, bottomInset, reduceMotion }) => {
+const AppLayer = ({ appId, launchRect, bottomInset, reduceMotion, dismiss }) => {
   const app = MOBILE_APPS[appId];
   const stack = useMobileStore((s) => s.stacks[appId]);
   const setTab = useMobileStore((s) => s.setTab);
@@ -46,15 +46,24 @@ const AppLayer = ({ appId, launchRect, bottomInset, reduceMotion }) => {
       exit={exit}
       transition={reduceMotion ? { duration: 0 } : ZOOM_TRANSITION}
       style={{ transformOrigin: "center", willChange: "transform" }}
-      className="absolute inset-0 z-30 overflow-hidden bg-ios-grouped"
+      className="absolute inset-0 z-30 overflow-hidden"
     >
-      <NavStack
-        appId={appId}
-        entries={entries}
-        tabs={tabs}
-        bottomInset={bottomInset}
-        reduceMotion={reduceMotion}
-      />
+      {/* Swipe-up-to-home layer. Separate from the zoom above because both
+          write y/scale/borderRadius, and one would overwrite the other — the
+          same split NavStack makes for its swipe-back. The surface colour
+          lives here so the drag's corner radius clips something. */}
+      <motion.div
+        className="h-full w-full overflow-hidden bg-ios-grouped"
+        style={dismiss}
+      >
+        <NavStack
+          appId={appId}
+          entries={entries}
+          tabs={tabs}
+          bottomInset={bottomInset}
+          reduceMotion={reduceMotion}
+        />
+      </motion.div>
     </motion.div>
   );
 };
