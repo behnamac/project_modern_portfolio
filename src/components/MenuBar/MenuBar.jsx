@@ -10,6 +10,10 @@ const MenuBar = () => {
   const theme = useOsStore((s) => s.theme);
   const setTheme = useOsStore((s) => s.setTheme);
   const openWindow = useOsStore((s) => s.openWindow);
+  // Slides out of the way while a window is in (simulated) fullscreen.
+  const hidden = useOsStore((s) =>
+    s.windows.some((w) => w.fullscreen && !w.minimized)
+  );
 
   const openApp = (appId) => {
     const def = APP_REGISTRY[appId];
@@ -17,7 +21,11 @@ const MenuBar = () => {
   };
 
   return (
-    <div className="fixed inset-x-0 top-0 z-[1000] flex h-8 items-center justify-between border-b border-black/5 bg-[var(--menubar-light)] px-4 text-[13px] font-medium text-[#1d1d1f] backdrop-blur-xl dark:border-white/5 dark:bg-[var(--menubar-dark)] dark:text-white">
+    <div
+      className={`fixed inset-x-0 top-0 z-[1000] flex h-8 items-center justify-between border-b border-black/5 bg-[var(--menubar-light)] px-4 text-[13px] font-medium text-[#1d1d1f] backdrop-blur-xl transition duration-300 ease-out dark:border-white/5 dark:bg-[var(--menubar-dark)] dark:text-white ${
+        hidden ? "pointer-events-none -translate-y-full opacity-0" : ""
+      }`}
+    >
       <div className="flex items-center gap-5">
         <span className="text-black/80 dark:text-white/90"><LogoMark /></span>
         <span className="font-semibold">{PROFILE.name.split(" ")[0]}&rsquo;s Portfolio</span>

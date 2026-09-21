@@ -10,7 +10,7 @@ let zCounter = 10;
 export const useOsStore = create((set, get) => ({
   booted: false,
   theme: "dark",
-  windows: [], // { id, app, title, props, position, size, minimized, zIndex }
+  windows: [], // { id, app, title, props, position, size, minimized, fullscreen, zIndex }
 
   finishBoot: () => set({ booted: true }),
 
@@ -42,6 +42,7 @@ export const useOsStore = create((set, get) => ({
           title,
           props,
           minimized: false,
+          fullscreen: false,
           size: size || DEFAULT_SIZE,
           position: {
             x: 120 + (openCount % 5) * 40,
@@ -78,6 +79,21 @@ export const useOsStore = create((set, get) => ({
       ),
     }));
   },
+
+  // Simulated, in-app fullscreen (never the browser Fullscreen API): the
+  // window grows to cover the whole viewport and MenuBar/Dock slide away.
+  // position/size are left untouched, so exiting restores the exact old rect.
+  // Only one window can be fullscreen at a time, like a macOS Space.
+  toggleFullscreen: (id) =>
+    set((state) => ({
+      windows: state.windows.map((w) =>
+        w.id === id
+          ? { ...w, fullscreen: !w.fullscreen }
+          : w.fullscreen
+          ? { ...w, fullscreen: false }
+          : w
+      ),
+    })),
 
   moveWindow: (id, position) =>
     set((state) => ({

@@ -1,5 +1,14 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useDragControls, useMotionValue } from "framer-motion";
 import { useOsStore } from "@/store/useOsStore";
+import { MENUBAR_HEIGHT } from "@/constants";
+
+// How long the expand/collapse between windowed and fullscreen takes.
+const FULLSCREEN_MS = 320;
+const EASE = "cubic-bezier(.2,.8,.2,1)";
+const GEOMETRY_TRANSITION = ["left", "top", "width", "height", "border-radius"]
+  .map((prop) => `${prop} ${FULLSCREEN_MS}ms ${EASE}`)
+  .join(", ");
 
 // Renders one draggable window. Positioning is absolute within the shared
 // "desk" container rendered by WindowManager, and z-index is set directly
@@ -19,12 +28,45 @@ const Window = ({ id, title, icon, children, size, constraintsRef }) => {
   const minimizeWindow = useOsStore((s) => s.minimizeWindow);
   const focusWindow = useOsStore((s) => s.focusWindow);
   const moveWindow = useOsStore((s) => s.moveWindow);
+  const toggleFullscreen = useOsStore((s) => s.toggleFullscreen);
+
+  const isFull = !!win?.fullscreen;
+
+  // left/top/width/height live in `style` so they apply instantly: a drag ends
+  // by writing the new position to the store while x/y snap back to 0, and an
+  // animated left/top would make the window visibly slide the distance twice.
+  // So the transition is switched on only for the duration of a fullscreen
+  // toggle, which is the one time we do want the box to animate.
+  const [animating, setAnimating] = useState(false);
+  const animateTimer = useRef(null);
+
+  useEffect(() => () => clearTimeout(animateTimer.current), []);
+
+  const toggleFull = useCallback(() => {
+    setAnimating(true);
+    clearTimeout(animateTimer.current);
+    animateTimer.current = setTimeout(
+      () => setAnimating(false),
+      FULLSCREEN_MS + 40
+    );
+    toggleFullscreen(id);
+  }, [id, toggleFullscreen]);
+
+  // The dock is hidden while fullscreen, so Escape is the escape hatch.
+  useEffect(() => {
+    if (!isFull) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") toggleFull();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isFull, toggleFull]);
 
   if (!win || win.minimized) return null;
 
   return (
     <motion.div
-      drag
+      drag={!isFull}
       dragListener={false}
       dragControls={dragControls}
       dragMomentum={false}
@@ -33,11 +75,17 @@ const Window = ({ id, title, icon, children, size, constraintsRef }) => {
       style={{
         x: dragX,
         y: dragY,
-        left: win.position.x,
-        top: win.position.y,
-        width: win.size?.width || size?.width || 640,
-        height: win.size?.height || size?.height || 460,
+        // The desk is inset by MENUBAR_HEIGHT at the top and inset-x-0, so a
+        // child at top:-MENUBAR_HEIGHT / 100% wide / 100vh tall covers the
+        // whole viewport without having to switch to position: fixed (which
+        // would change the coordinate origin mid-animation).
+        left: isFull ? 0 : win.position.x,
+        top: isFull ? -MENUBAR_HEIGHT : win.position.y,
+        width: isFull ? "100%" : win.size?.width || size?.width || 640,
+        height: isFull ? "100vh" : win.size?.height || size?.height || 460,
+        borderRadius: isFull ? 0 : 12,
         zIndex: win.zIndex,
+        transition: animating ? GEOMETRY_TRANSITION : undefined,
       }}
       onDragEnd={(_, info) => {
         moveWindow(id, {
@@ -52,14 +100,22 @@ const Window = ({ id, title, icon, children, size, constraintsRef }) => {
       exit={{ opacity: 0, scale: 0.92 }}
       transition={{ type: "spring", stiffness: 320, damping: 30 }}
       onPointerDownCapture={() => focusWindow(id)}
-      className="pointer-events-auto absolute flex flex-col overflow-hidden rounded-xl border border-black/10 shadow-2xl shadow-black/40 bg-white/90 dark:bg-[#1e1e22]/95 dark:border-white/10 backdrop-blur-xl"
+      className={`pointer-events-auto absolute flex flex-col overflow-hidden bg-white/90 dark:bg-[#1e1e22]/95 backdrop-blur-xl ${
+        isFull
+          ? ""
+          : "border border-black/10 shadow-2xl shadow-black/40 dark:border-white/10"
+      }`}
     >
       <TitleBar
         title={title}
         icon={icon}
+        isFull={isFull}
         onClose={() => closeWindow(id)}
         onMinimize={() => minimizeWindow(id)}
-        onStartDrag={(e) => dragControls.start(e)}
+        onFullscreen={toggleFull}
+        onStartDrag={(e) => {
+          if (!isFull) dragControls.start(e);
+        }}
       />
       <div className="mac-scroll flex-1 overflow-auto bg-white/70 dark:bg-[#1c1c1f]/90 text-[#1d1d1f] dark:text-[#f2f2f3]">
         {children}
@@ -86,6 +142,16 @@ const ZOOM_GLYPH = (
   />
 );
 
+// Same two triangles, flipped to point inward — shown while fullscreen.
+const EXIT_FULLSCREEN_GLYPH = (
+  <path
+    d="M7.4 1.8 V4.6 H4.6 Z M4.6 10.2 V7.4 H7.4 Z"
+    strokeWidth="0.6"
+    fill="currentColor"
+    strokeLinejoin="round"
+  />
+);
+
 // A macOS traffic-light button: a flat dot that reveals its glyph while the
 // pointer is anywhere over the cluster. Without an onClick it renders as an
 // inert, dimmed dot (the placeholder state) instead of a button.
@@ -98,6 +164,7 @@ const TrafficLight = ({ label, color, glyphColor, glyph, onClick }) => {
         ? {
             onClick,
             onPointerDown: (e) => e.stopPropagation(),
+            onDoubleClick: (e) => e.stopPropagation(),
             "aria-label": label,
           }
         : { "aria-hidden": true })}
@@ -119,10 +186,21 @@ const TrafficLight = ({ label, color, glyphColor, glyph, onClick }) => {
   );
 };
 
-const TitleBar = ({ title, icon, onClose, onMinimize, onStartDrag }) => (
+const TitleBar = ({
+  title,
+  icon,
+  isFull,
+  onClose,
+  onMinimize,
+  onFullscreen,
+  onStartDrag,
+}) => (
   <div
     onPointerDown={onStartDrag}
-    className="relative flex h-9 shrink-0 select-none items-center justify-center gap-2 border-b border-black/10 bg-[#e7e7e9]/90 px-3 dark:border-white/10 dark:bg-[#2b2b2f]/90 cursor-grab active:cursor-grabbing touch-none"
+    onDoubleClick={onFullscreen}
+    className={`relative flex h-9 shrink-0 select-none items-center justify-center gap-2 border-b border-black/10 bg-[#e7e7e9]/90 px-3 dark:border-white/10 dark:bg-[#2b2b2f]/90 touch-none ${
+      isFull ? "cursor-default" : "cursor-grab active:cursor-grabbing"
+    }`}
   >
     {/* `group` so that hovering anywhere over the cluster reveals all three
         glyphs at once, the way macOS does it. */}
@@ -142,10 +220,11 @@ const TitleBar = ({ title, icon, onClose, onMinimize, onStartDrag }) => (
         onClick={onMinimize}
       />
       <TrafficLight
-        label="Full screen"
+        label={isFull ? "Exit full screen" : "Enter full screen"}
         color="#28c840"
         glyphColor="#006200"
-        glyph={ZOOM_GLYPH}
+        glyph={isFull ? EXIT_FULLSCREEN_GLYPH : ZOOM_GLYPH}
+        onClick={onFullscreen}
       />
     </div>
     <div className="flex items-center gap-1.5 text-xs font-medium text-[#1d1d1f]/70 dark:text-white/70">

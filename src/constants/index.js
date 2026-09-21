@@ -1,6 +1,11 @@
 // All real content sourced from https://behnamsepehri.de/ and https://www.behnamsepehri.de/cv
 // Edit this file to update anything shown across the portfolio "OS".
 
+// Desktop chrome geometry. The window "desk" is inset by these so windows can
+// never be dragged under the menu bar or behind the dock.
+export const MENUBAR_HEIGHT = 32; // MenuBar is h-8
+export const DOCK_RESERVE = 96; // 64px dock bar + 12px bottom gap + magnification headroom
+
 export const PROFILE = {
   name: "Behnam Sepehri",
   shortName: "Behnam",
