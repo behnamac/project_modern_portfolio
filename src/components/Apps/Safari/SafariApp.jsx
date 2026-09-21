@@ -26,14 +26,16 @@ const SafariApp = () => (
           >
             <p className="text-sm font-semibold">{p.name}</p>
             <p className="mt-1 text-xs text-black/60 dark:text-white/60">{p.description}</p>
-            <a
-              href={p.githubUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-2 inline-block text-xs font-medium text-blue-500 hover:underline"
-            >
-              Check out the repo &rsaquo;
-            </a>
+            {(p.githubUrl || p.liveUrl) && (
+              <a
+                href={p.githubUrl || p.liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 inline-block text-xs font-medium text-blue-500 hover:underline"
+              >
+                {p.githubUrl ? "Check out the repo" : "Visit the site"} &rsaquo;
+              </a>
+            )}
           </div>
         ))}
       </div>

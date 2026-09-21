@@ -27,6 +27,15 @@ export const useOsStore = create((set, get) => ({
   openWindow: ({ id, app, title, props = {}, size }) => {
     const existing = get().windows.find((w) => w.id === id);
     if (existing) {
+      // Re-opening an app that is already open focuses it rather than
+      // duplicating it, but the new props still have to land: double-clicking a
+      // second desktop folder while Finder is open must change what Finder
+      // shows, not silently keep the first project.
+      set((state) => ({
+        windows: state.windows.map((w) =>
+          w.id === id ? { ...w, props: { ...w.props, ...props } } : w
+        ),
+      }));
       get().focusWindow(id);
       get().restoreWindow(id);
       return;

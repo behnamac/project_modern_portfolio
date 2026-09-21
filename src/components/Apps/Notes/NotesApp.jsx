@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { PROFILE, EXPERIENCE, EDUCATION } from "@/constants";
+import { PROFILE, EXPERIENCE, CERTIFICATIONS, REFERENCES } from "@/constants";
 
-const NOTE_TABS = ["About Me", "Experience", "Education"];
+const NOTE_TABS = ["About Me", "Experience", "Certifications", "References"];
 
 const NotesApp = () => {
   const [tab, setTab] = useState(NOTE_TABS[0]);
@@ -67,13 +67,52 @@ const NotesApp = () => {
           </div>
         )}
 
-        {tab === "Education" && (
+        {tab === "Certifications" && (
           <div className="mx-auto max-w-md">
-            <ul className="list-disc space-y-1.5 pl-4">
-              {EDUCATION.map((e) => (
-                <li key={e}>{e}</li>
+            <ul className="space-y-2">
+              {CERTIFICATIONS.map((certification) => (
+                <li
+                  key={certification.id}
+                  className="border-b border-black/10 pb-2 last:border-0 dark:border-white/10"
+                >
+                  <p className="leading-snug">{certification.title}</p>
+                  {certification.credentialUrl && (
+                    <a
+                      href={certification.credentialUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs font-medium text-blue-600 hover:underline dark:text-blue-400"
+                    >
+                      View credential &rsaquo;
+                    </a>
+                  )}
+                </li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {tab === "References" && (
+          <div className="mx-auto max-w-md space-y-3">
+            {REFERENCES.map((reference) => (
+              <div
+                key={reference.id}
+                className="border-b border-black/10 pb-3 last:border-0 dark:border-white/10"
+              >
+                <p className="font-semibold">{reference.name}</p>
+                <p className="text-xs text-black/60 dark:text-white/60">
+                  {reference.title}
+                </p>
+                {reference.email && (
+                  <a
+                    href={`mailto:${reference.email}`}
+                    className="text-xs font-medium text-blue-600 hover:underline dark:text-blue-400"
+                  >
+                    {reference.email}
+                  </a>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </section>

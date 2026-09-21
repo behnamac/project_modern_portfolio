@@ -35,7 +35,8 @@ const DesktopIcons = () => {
       app: "finder",
       title: def.title,
       size: def.size,
-      props: { initialProjectId: projectId },
+      // Stamped so re-opening the same folder is a distinct request.
+      props: { initialProjectId: projectId, openedAt: Date.now() },
     });
   };
 
@@ -50,7 +51,7 @@ const DesktopIcons = () => {
           onOpen={() => openApp("resume")}
         />
       </div>
-      <div className="absolute right-4 top-6 flex flex-col gap-2">
+      <div className="absolute right-4 top-6 bottom-28 flex flex-col flex-wrap-reverse content-start gap-2">
         {PROJECTS.map((p) => (
           <DesktopIcon
             key={p.id}

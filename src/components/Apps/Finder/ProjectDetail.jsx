@@ -20,16 +20,18 @@ const ProjectDetail = ({ project }) => {
         <p className="mb-4 leading-relaxed text-black/80 dark:text-white/80">
           {project.description}
         </p>
-        <div className="mb-5 flex flex-wrap gap-1.5">
-          {project.tech.map((t) => (
-            <span
-              key={t}
-              className="rounded-full bg-black/[0.06] px-2.5 py-1 text-xs font-medium dark:bg-white/10"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
+        {project.tech.length > 0 && (
+          <div className="mb-5 flex flex-wrap gap-1.5">
+            {project.tech.map((t) => (
+              <span
+                key={t}
+                className="rounded-full bg-black/[0.06] px-2.5 py-1 text-xs font-medium dark:bg-white/10"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        )}
         <div className="flex gap-2">
           {project.liveUrl && (
             <a

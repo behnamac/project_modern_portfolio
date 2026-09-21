@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { PROJECTS } from "@/constants";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { FolderIcon } from "@/components/icons";
@@ -13,7 +13,7 @@ const projectView = (projectId) => ({ kind: "project", projectId });
 // The "Work" folder. Holds the selection plus a small browser-style history
 // stack so the toolbar chevrons actually mean something: opening a folder
 // pushes a project view, Back returns to the icon canvas, Forward re-opens it.
-const FinderApp = ({ initialProjectId }) => {
+const FinderApp = ({ initialProjectId, openedAt }) => {
   const isMobile = useIsMobile();
   const [selectedId, setSelectedId] = useState(initialProjectId || null);
   // Opened from a desktop folder, we seed two entries so Back lands on Work.
@@ -26,15 +26,35 @@ const FinderApp = ({ initialProjectId }) => {
   const view = nav.stack[nav.index];
   const project = PROJECTS.find((p) => p.id === view.projectId);
 
-  const navigate = (next) =>
-    setNav((n) => {
-      const current = n.stack[n.index];
-      if (current.kind === next.kind && current.projectId === next.projectId) return n;
-      // Navigating from the middle of the stack drops the forward entries,
-      // exactly like a browser.
-      const stack = [...n.stack.slice(0, n.index + 1), next];
-      return { stack, index: stack.length - 1 };
-    });
+  // Stable so the reveal effect below can depend on it without re-running.
+  const navigate = useCallback(
+    (next) =>
+      setNav((n) => {
+        const current = n.stack[n.index];
+        if (current.kind === next.kind && current.projectId === next.projectId) return n;
+        // Navigating from the middle of the stack drops the forward entries,
+        // exactly like a browser.
+        const stack = [...n.stack.slice(0, n.index + 1), next];
+        return { stack, index: stack.length - 1 };
+      }),
+    []
+  );
+
+  // Opening a desktop folder while Finder is already open updates the existing
+  // window's props instead of mounting a second Finder, so the request to
+  // reveal a project arrives here as a prop change rather than initial state.
+  // `openedAt` changes on every double-click, so re-opening the SAME folder
+  // after navigating away still counts as a new request.
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true; // The initial state above already handled mount.
+      return;
+    }
+    if (!initialProjectId) return;
+    setSelectedId(initialProjectId);
+    navigate(projectView(initialProjectId));
+  }, [initialProjectId, openedAt, navigate]);
 
   const showFolder = () => {
     setSelectedId(null);

@@ -1,0 +1,410 @@
+{
+  "_source": "https://www.behnamsepehri.de/api/prisma-data",
+  "profile": {
+    "name": "Behnam Sepehri",
+    "shortName": "Behnam",
+    "initials": "BS",
+    "title": "Full-Stack Developer",
+    "location": "Berlin, Germany",
+    "yearsExperience": "3+",
+    "email": "dev@behnamsepehri.de",
+    "website": "https://behnamsepehri.de",
+    "cvUrl": "https://behnamsepehri.de/cv",
+    "github": "https://github.com/behnamac",
+    "linkedin": "https://www.linkedin.com/in/behnam-sepehri/",
+    "bioShort": "Full-Stack Developer with over 4 years of experience in building responsive, scalable web applications.",
+    "bioLong": [
+      "Full-Stack Developer with over 4 years of experience in building responsive, scalable web applications. I specialize in React.js, Next.js, TypeScript, and Tailwind CSS, with a strong focus on UI/UX, performance, and maintainability.",
+      "My journey began with WordPress and WebGL development, evolving into advanced front-end engineering. Currently, I'm enhancing my skills in Docker and CI/CD pipelines, preparing for senior-level roles."
+    ]
+  },
+  "projects": [
+    {
+      "id": "deskfolio",
+      "name": "DeskFolio",
+      "folder": "Project 1 (DeskFolio)",
+      "description": "A portfolio that boots instead of scrolls; a macOS desktop rebuilt in React, where each section of my CV is an app you open.",
+      "tech": [
+        "TypeScript",
+        "Framer",
+        "React",
+        "SASS"
+      ],
+      "githubUrl": "https://github.com/behnamac/project_modern_portfolio",
+      "liveUrl": "https://project-modern-portfolio.vercel.app/"
+    },
+    {
+      "id": "nestfreund-modern-housing-support-platform",
+      "name": "NestFreund - Modern Housing Support Platform",
+      "folder": "Project 2 (NestFreund)",
+      "description": "A platform empowering individuals at risk of losing their homes with AI-driven technology.",
+      "tech": [
+        "Tailwindcss",
+        "React",
+        "Postgresql"
+      ],
+      "githubUrl": null,
+      "liveUrl": "https://nestfreund.de/"
+    },
+    {
+      "id": "movie-explorer-a-movie-search-app",
+      "name": "Movie Explorer - A Movie Search App",
+      "folder": "Project 3 (Movie Explorer)",
+      "description": "A movie search app that allows users to search for movies, view details, and save their favorites.",
+      "tech": [
+        "TypeScript",
+        "Tailwindcss",
+        "React Native"
+      ],
+      "githubUrl": "https://github.com/behnamac/project_mobile_movie_app",
+      "liveUrl": null
+    },
+    {
+      "id": "calendar-clone-modern-react-calendar-app",
+      "name": "Calendar Clone - Modern React Calendar App",
+      "folder": "Project 4 (Calendar Clone)",
+      "description": "Modern Calendar App - A responsive React calendar with event management, multiple view modes, and mobile-optimized interface built with TypeScript and Tailwind CSS.",
+      "tech": [
+        "Next.js",
+        "Tailwindcss"
+      ],
+      "githubUrl": "https://github.com/behnamac/calendar-clone-react-ui",
+      "liveUrl": "https://calendar-clone-react-ui.vercel.app/"
+    },
+    {
+      "id": "agriflow-document-hub",
+      "name": "AgriFlow Document Hub",
+      "folder": "Project 5 (AgriFlow Document)",
+      "description": "A modern, responsive document management system for agricultural logistics companies. Built with React, TypeScript, and Tailwind CSS.",
+      "tech": [
+        "Tailwindcss",
+        "Next.js"
+      ],
+      "githubUrl": "https://github.com/behnamac/project-AgriFlow-hub",
+      "liveUrl": "https://project-agri-flow-hub.vercel.app/"
+    },
+    {
+      "id": "patient-management-system",
+      "name": "Patient management system",
+      "folder": "Project 6 (Patient management)",
+      "description": "A modern, full-stack healthcare patient management system. The application provides a comprehensive solution for managing patient information, appointments, and healthcare workflows.",
+      "tech": [
+        "Next.js",
+        "Neon",
+        "Tailwindcss"
+      ],
+      "githubUrl": "https://github.com/behnamac/project_ben_care_patient_management",
+      "liveUrl": "https://behnamac-project-ben-care.vercel.app/"
+    },
+    {
+      "id": "nike-e-commerce-platform",
+      "name": "Nike E-Commerce Platform",
+      "folder": "Project 7 (Nike E-Commerce)",
+      "description": "A fully responsive, modern e-commerce platform built with Next.js 15, React, and TypeScript, featuring a stunning 3D hero section with Three.js, dynamic product catalog, shopping cart functionality, and seamless user authentication.",
+      "tech": [
+        "Neon",
+        "Next.js",
+        "Tailwindcss",
+        "Three.js"
+      ],
+      "githubUrl": "https://github.com/behnamac/nike-app",
+      "liveUrl": "https://nike-app-alpha-ochre.vercel.app/"
+    },
+    {
+      "id": "tome-talk",
+      "name": "Tome Talk",
+      "folder": "Project 8 (Tome Talk)",
+      "description": "A full-stack AI web app that turns any PDF into something you can have a real conversation with. Upload a book and it's parsed in the browser, split into indexed segments, and stored alongside an auto-generated cover. From there you pick a voice persona and speak to it.",
+      "tech": [
+        "Next.js",
+        "TypeScript"
+      ],
+      "githubUrl": "https://github.com/behnamac/project_tometalk_ai",
+      "liveUrl": "https://project-tometalk-ai.vercel.app/"
+    }
+  ],
+  "techStack": [
+    {
+      "category": "Frontend",
+      "technologies": "React, Tailwindcss, Next.js, React Native, Three.js"
+    },
+    {
+      "category": "Language",
+      "technologies": "TypeScript, HTML, CSS, Javascript"
+    },
+    {
+      "category": "CSS library",
+      "technologies": "GSAP, Framer, Chakra UI, SASS"
+    },
+    {
+      "category": "Backend",
+      "technologies": "Neon, Node.js, Flask, Terraform"
+    },
+    {
+      "category": "SQL",
+      "technologies": "Postgresql"
+    },
+    {
+      "category": "Devops",
+      "technologies": "Docker"
+    },
+    {
+      "category": "Other",
+      "technologies": "Azure, Postman, CosmosDB, Sentry, MUI"
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp-5",
+      "role": "Full stack developer",
+      "company": "Sherpa Digital",
+      "period": "Jun 2025 - Present",
+      "location": "Amsterdam, Netherlands",
+      "tech": [
+        "Next.js",
+        "Three.js",
+        "Flusk",
+        "Azure",
+        "Docker",
+        "TailwindCSS",
+        "Nginx",
+        "CI/CD"
+      ],
+      "highlights": [
+        "Built and maintained complex, responsive user interfaces using NextJS, TypeScript, and Tailwind CSS.",
+        "Implemented robust state management solutions with Redux and Context API to ensure efficient data flow across applications.",
+        "Refactored and optimized front-end architectures to enhance performance, scalability, and reusability of codebases.",
+        "Enhanced UI/UX by integrating modular components, standardizing styling, and improving overall usability.",
+        "Collaborated closely with cross-functional teams, including backend developers, designers, and product managers, to deliver seamless and cohesive user experiences.",
+        "Adopted best practices for clean, maintainable code, including writing comprehensive documentation and implementing automated testing with Jest and Mocha."
+      ]
+    },
+    {
+      "id": "exp-4",
+      "role": "Frontend Developer",
+      "company": "UnternehmerTUM",
+      "period": "Aug 2024 - May 2025",
+      "location": "Munich, Germany",
+      "tech": [
+        "React",
+        "fastAPI",
+        "HTML",
+        "CSS",
+        "Tailwindcss",
+        "REST API",
+        "Open API",
+        "TypeScript"
+      ],
+      "highlights": [
+        "Collaborated in a cross-functional team to develop a modern web platform.",
+        "Implemented front-end solutions with React, TypeScript, and Tailwind CSS.",
+        "Contributed to back-end development using FastAPI and ExpressJS.",
+        "Adopted agile methodologies, including iterative development and rapid prototyping.",
+        "Strengthened teamwork and communication skills in a startup-like environment."
+      ]
+    },
+    {
+      "id": "exp-1",
+      "role": "Frontend Developer",
+      "company": "Freelancer",
+      "period": "Nov 2024 - Present",
+      "location": "Haarlem, Netherlands",
+      "tech": [
+        "React",
+        "Node.js",
+        "TypeScript",
+        "PostgreSQL",
+        "Next.js",
+        "Tailwindcss",
+        "REST API",
+        "ChakraUI",
+        "No SQL"
+      ],
+      "highlights": [
+        "Registered as a freelancer in the Dutch KvK.",
+        "Maintaining the current front-end of ongoing projects",
+        "Translated wireframes into UI components",
+        "REST API Integrations",
+        "Collaborated with cross-functional teams",
+        "Integrated APIs",
+        "Implemented responsive design",
+        "Optimized performance and SEO",
+        "Following agile practices"
+      ]
+    },
+    {
+      "id": "exp-2",
+      "role": "Frontend Web Developer",
+      "company": "Sumrand",
+      "period": "Jun 2023 - May 2024",
+      "location": "Istanbul, Türkiye",
+      "tech": [
+        "React",
+        "JavaScript",
+        "CSS",
+        "HTML"
+      ],
+      "highlights": [
+        "Developed dynamic, responsive web applications using React.js and Next.js, ensuring fast performance and optimized rendering.",
+        "Implemented server-side rendering (SSR) and static site generation (SSG) with Next.js to improve SEO and page load speed.",
+        "Translated design mockups and wireframes into functional, interactive interfaces.",
+        "Worked with backend developers to integrate APIs and ensure data flow was efficient and secure."
+      ]
+    },
+    {
+      "id": "exp-3",
+      "role": "Game Developer",
+      "company": "Core Studio",
+      "period": "Oct 2021 - May 2023",
+      "location": "Istanbul, Türkiye",
+      "tech": [
+        "SOLID Design Principles",
+        "Adobe Photoshop",
+        "Unity",
+        "Three.js",
+        "UX"
+      ],
+      "highlights": [
+        "Developed engaging mobile games for iOS and Android platforms using Unity.",
+        "Collaborated with publishers like Rollic and Supercent to enhance game quality and user experience.",
+        "Designed game architecture ensuring optimal performance across devices."
+      ]
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "test-1",
+      "name": "Cihan Akbil",
+      "title": "Co-Founder at CORE Studio",
+      "quote": "During our time working with Behnam, we developed dozens of projects together. During this time, Behnam's love for his job, his desire for self-improvement and his innovative approach have always won me admiration. In addition to being a good team player, he is also a person who can make strategic decisions on his own, can deal with pressure and stay calm in times of crisis."
+    },
+    {
+      "id": "test-2",
+      "name": "Arham Eskafi Noghani",
+      "title": "Technical Project Manager",
+      "quote": "What sets Behnam apart is his ability to blend deep technical skills with a creative approach to problem-solving. Behnam is not only a skilled developer but also a proactive communicator. He regularly shared updates with the creative team, ensuring that all members were aligned with the project's goals and progress."
+    },
+    {
+      "id": "test-3",
+      "name": "Ehsan Seyedi",
+      "title": "Engineering Manager at",
+      "quote": "Behnam consistently demonstrated a passion for development and a talent for creating innovative, efficient solutions. His expertise in coding, system design, and problem-solving was invaluable. A strong communicator and team player, Behnam always shared his knowledge and contributed positively to our team's success."
+    },
+    {
+      "id": "test-4",
+      "name": "Claire Wang",
+      "title": "Interaction Designer at Unternehmer TUM",
+      "quote": "I had the great pleasure of working with Behnam Sepehri on the NestFreund project, where we developed a digital solution to support people at risk of losing their homes in Germany. As our Front-End Developer, Behnam played a key role in turning my design concepts into a fully functional and accessible product. What truly stood out to me was Behnam’s willingness to adapt and grow together."
+    },
+    {
+      "id": "test-5",
+      "name": "Amirreza karimyrad",
+      "title": "Lead software engineer at Able",
+      "quote": "I had the pleasure of working closely with Behnam, and I can confidently say he is a fantastic developer. You can always rely on him to deliver, even under pressure. Despite our differing areas of expertise, working alongside him had an amazing impact on me."
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-2",
+      "title": "Software Engineer Track, Digital Product School (Unternehmertum)",
+      "credentialUrl": "https://certificates.unternehmertum.de/view/fd77c720-55e6-4e57-87b7-e0e0249c38f2"
+    },
+    {
+      "id": "cert-1",
+      "title": "IBM Front-End Developer Professional Certificate",
+      "credentialUrl": "https://www.coursera.org/account/accomplishments/professional-cert/LHQZYNH02GKJ?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=prof"
+    },
+    {
+      "id": "cert-3",
+      "title": "Meta Front-End Developer",
+      "credentialUrl": "https://www.coursera.org/account/accomplishments/specialization/1NLGZJ9QO3RE"
+    },
+    {
+      "id": "cmo3bj9qr0000kv04ssjz30h0",
+      "title": "Codecademy Full-Stack Engineer",
+      "credentialUrl": "https://www.codecademy.com/profiles/behnam.sepehri/certificates/ffd0f42cce1a44e9a0108b365047a0a6"
+    },
+    {
+      "id": "cert-5",
+      "title": "Full Stack Web Developer Certificate",
+      "credentialUrl": "https://www.linkedin.com/learning/certificates/169ab4bce89196f7f82f227b6912014818d0cb3b45b715d23103019e172c449e?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BSqKC0e6AQRy2XWhYbAm3nQ%3D%3D"
+    },
+    {
+      "id": "cert-6",
+      "title": "Advanced React Certificate",
+      "credentialUrl": "https://www.coursera.org/account/accomplishments/verify/084G0NPCBI1M"
+    },
+    {
+      "id": "cert-7",
+      "title": "JavaScript Foundations Certificate",
+      "credentialUrl": "https://www.linkedin.com/learning/certificates/a4fb9efb6ad64225bfcf7834cb96cfd0d7806ce182be1b0675fc48071049249d?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BSqKC0e6AQRy2XWhYbAm3nQ%3D%3D"
+    },
+    {
+      "id": "cert-8",
+      "title": "SQL Certificate",
+      "credentialUrl": "https://www.linkedin.com/learning/certificates/7903926b4cab6db608e566fa0c4c62c1b03fdb79a19c36393f88d16ee4ea28c3"
+    },
+    {
+      "id": "cert-9",
+      "title": "Generative AI Certificate",
+      "credentialUrl": "https://www.linkedin.com/learning/certificates/4572447c88051b9202a6070282ec56d43b3bcae3277658a4327246be6664e801?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BSqKC0e6AQRy2XWhYbAm3nQ%3D%3D"
+    },
+    {
+      "id": "cert-10",
+      "title": "Career in Front-End Certificate",
+      "credentialUrl": "https://www.linkedin.com/learning/certificates/a275819e5f468d89032f129babf271f217e023774a2e3dda9a0981fbe1d0111b?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BSqKC0e6AQRy2XWhYbAm3nQ%3D%3D"
+    },
+    {
+      "id": "cert-11",
+      "title": "Software Development Fundamentals Certificate",
+      "credentialUrl": "https://www.linkedin.com/learning/certificates/a275819e5f468d89032f129babf271f217e023774a2e3dda9a0981fbe1d0111b?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BSqKC0e6AQRy2XWhYbAm3nQ%3D%3D"
+    },
+    {
+      "id": "cert-4",
+      "title": "Codecademy Front-End Engineer Career Path",
+      "credentialUrl": "https://www.codecademy.com/profiles/behnamac/certificates/2682884a0719474f96407efe432fdd87"
+    }
+  ],
+  "references": [
+    {
+      "id": "cmgdjmtoe0005uj2ttkkutzxk",
+      "name": "Dr. Afsane Asasei",
+      "title": "Head of Artificial Intelligence, UnternehmerTUM",
+      "email": "asaei@unternehmertum.de"
+    },
+    {
+      "id": "cmgdjmtoe0006uj2tja3hm009",
+      "name": "Nebojsa Milic",
+      "title": "Software Product Expert, UnternehmerTUM",
+      "email": "nebojsa.milic@unternehmertum.de"
+    }
+  ],
+  "education": [
+    {
+      "id": "cmgdjmtj30000uj2tm61io6tl",
+      "degree": "Bachelor's Degree",
+      "institution": "Islamic Azad University",
+      "field": "Architecture engineering",
+      "startDate": "July 2012",
+      "endDate": "March 2016",
+      "gpa": "3.4/4.0"
+    }
+  ],
+  "languages": [
+    {
+      "id": "cmgdjmtlq0002uj2te3qek6fn",
+      "name": "English",
+      "level": "Fluent"
+    },
+    {
+      "id": "cmu9um06t0000jp04zd36s9xk",
+      "name": "German",
+      "level": "Beginner"
+    },
+    {
+      "id": "cmgdjmtlq0004uj2t4w3p2ufo",
+      "name": "Persian",
+      "level": "Beginner"
+    }
+  ]
+}
