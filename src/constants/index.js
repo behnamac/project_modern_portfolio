@@ -38,5 +38,5 @@ export const EXPERIENCE = portfolio.experience;
 export const TESTIMONIALS = portfolio.testimonials;
 export const CERTIFICATIONS = portfolio.certifications;
 export const REFERENCES = portfolio.references;
-
-// Also synced, not shown anywhere yet: portfolio.education, portfolio.languages.
+export const EDUCATION = portfolio.education;
+export const LANGUAGES = portfolio.languages;

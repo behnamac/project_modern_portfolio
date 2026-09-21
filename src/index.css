@@ -54,3 +54,251 @@ body {
 .cursor-blink {
   animation: blink 1s step-end infinite;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   iOS DESIGN TOKENS — used only by the mobile shell (src/components/Mobile).
+   Raw values live in :root and are swapped by the `.dark` class at runtime;
+   `@theme inline` below turns them into Tailwind utilities that re-resolve
+   on theme change, so mobile markup needs no `dark:` variants.
+
+   `:root.dark` (0,2,0) rather than `.dark` (0,1,0): the latter ties with
+   `:root` and would only win by source order.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* accents */
+  --ios-blue: #007AFF;   --ios-green: #34C759;  --ios-indigo: #5856D6;
+  --ios-orange: #FF9500; --ios-pink: #FF2D55;   --ios-purple: #AF52DE;
+  --ios-red: #FF3B30;    --ios-teal: #30B0C7;   --ios-yellow: #FFCC00;
+
+  /* gray ramp */
+  --ios-gray: #8E8E93;   --ios-gray-2: #AEAEB2; --ios-gray-3: #C7C7CC;
+  --ios-gray-4: #D1D1D6; --ios-gray-5: #E5E5EA; --ios-gray-6: #F2F2F7;
+
+  /* labels */
+  --ios-label: #000000;
+  --ios-label-2: rgba(60, 60, 67, 0.60);
+  --ios-label-3: rgba(60, 60, 67, 0.30);
+  --ios-label-4: rgba(60, 60, 67, 0.18);
+  --ios-placeholder: rgba(60, 60, 67, 0.30);
+
+  /* backgrounds */
+  --ios-bg: #FFFFFF;      --ios-bg-2: #F2F2F7;      --ios-bg-3: #FFFFFF;
+  --ios-grouped: #F2F2F7; --ios-grouped-2: #FFFFFF; --ios-grouped-3: #F2F2F7;
+
+  /* separators + fills */
+  --ios-separator: rgba(60, 60, 67, 0.29);
+  --ios-separator-opaque: #C6C6C8;
+  --ios-fill: rgba(120, 120, 128, 0.20);
+  --ios-fill-2: rgba(120, 120, 128, 0.16);
+  --ios-fill-3: rgba(118, 118, 128, 0.12);
+  --ios-fill-4: rgba(116, 116, 128, 0.08);
+
+  /* chrome materials */
+  --ios-chrome-nav: rgba(249, 249, 249, 0.80);
+  --ios-chrome-tab: rgba(249, 249, 249, 0.94);
+  --ios-chrome-thumb: #FFFFFF;
+  --ios-home-ind: rgba(0, 0, 0, 0.30);
+}
+
+:root.dark {
+  --ios-blue: #0A84FF;   --ios-green: #30D158;  --ios-indigo: #5E5CE6;
+  --ios-orange: #FF9F0A; --ios-pink: #FF375F;   --ios-purple: #BF5AF2;
+  --ios-red: #FF453A;    --ios-teal: #40CBE0;   --ios-yellow: #FFD60A;
+
+  --ios-gray: #8E8E93;   --ios-gray-2: #636366; --ios-gray-3: #48484A;
+  --ios-gray-4: #3A3A3C; --ios-gray-5: #2C2C2E; --ios-gray-6: #1C1C1E;
+
+  --ios-label: #FFFFFF;
+  --ios-label-2: rgba(235, 235, 245, 0.60);
+  --ios-label-3: rgba(235, 235, 245, 0.30);
+  --ios-label-4: rgba(235, 235, 245, 0.16);
+  --ios-placeholder: rgba(235, 235, 245, 0.30);
+
+  --ios-bg: #000000;      --ios-bg-2: #1C1C1E;      --ios-bg-3: #2C2C2E;
+  --ios-grouped: #000000; --ios-grouped-2: #1C1C1E; --ios-grouped-3: #2C2C2E;
+
+  --ios-separator: rgba(84, 84, 88, 0.65);
+  --ios-separator-opaque: #38383A;
+  --ios-fill: rgba(120, 120, 128, 0.36);
+  --ios-fill-2: rgba(120, 120, 128, 0.32);
+  --ios-fill-3: rgba(118, 118, 128, 0.24);
+  --ios-fill-4: rgba(118, 118, 128, 0.18);
+
+  --ios-chrome-nav: rgba(22, 22, 22, 0.80);
+  --ios-chrome-tab: rgba(22, 22, 22, 0.94);
+  --ios-chrome-thumb: #636366;
+  --ios-home-ind: rgba(255, 255, 255, 0.30);
+}
+
+/* Theme-swappable colours. `inline` makes utilities emit the underlying
+   var, so the :root.dark override applies without a `dark:` variant. */
+@theme inline {
+  --color-ios-blue: var(--ios-blue);
+  --color-ios-green: var(--ios-green);
+  --color-ios-indigo: var(--ios-indigo);
+  --color-ios-orange: var(--ios-orange);
+  --color-ios-pink: var(--ios-pink);
+  --color-ios-purple: var(--ios-purple);
+  --color-ios-red: var(--ios-red);
+  --color-ios-teal: var(--ios-teal);
+  --color-ios-yellow: var(--ios-yellow);
+
+  --color-ios-gray: var(--ios-gray);
+  --color-ios-gray-2: var(--ios-gray-2);
+  --color-ios-gray-3: var(--ios-gray-3);
+  --color-ios-gray-4: var(--ios-gray-4);
+  --color-ios-gray-5: var(--ios-gray-5);
+  --color-ios-gray-6: var(--ios-gray-6);
+
+  --color-ios-label: var(--ios-label);
+  --color-ios-label-2: var(--ios-label-2);
+  --color-ios-label-3: var(--ios-label-3);
+  --color-ios-label-4: var(--ios-label-4);
+  --color-ios-placeholder: var(--ios-placeholder);
+
+  --color-ios-bg: var(--ios-bg);
+  --color-ios-bg-2: var(--ios-bg-2);
+  --color-ios-bg-3: var(--ios-bg-3);
+  --color-ios-grouped: var(--ios-grouped);
+  --color-ios-grouped-2: var(--ios-grouped-2);
+  --color-ios-grouped-3: var(--ios-grouped-3);
+
+  --color-ios-separator: var(--ios-separator);
+  --color-ios-separator-opaque: var(--ios-separator-opaque);
+
+  --color-ios-fill: var(--ios-fill);
+  --color-ios-fill-2: var(--ios-fill-2);
+  --color-ios-fill-3: var(--ios-fill-3);
+  --color-ios-fill-4: var(--ios-fill-4);
+
+  --color-ios-chrome-nav: var(--ios-chrome-nav);
+  --color-ios-chrome-tab: var(--ios-chrome-tab);
+  --color-ios-chrome-thumb: var(--ios-chrome-thumb);
+  --color-ios-home-ind: var(--ios-home-ind);
+}
+
+/* Identical in both themes, so plain @theme. */
+@theme {
+  /* -apple-system first: real iOS gets SF Pro at the right optical size and
+     Apple's own tracking, at zero bytes. Inter is the non-Apple fallback. */
+  --font-ios: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+              "Helvetica Neue", "Segoe UI", Inter, ui-sans-serif, system-ui,
+              sans-serif, "Apple Color Emoji";
+  --font-ios-mono: ui-monospace, "SF Mono", SFMono-Regular, "JetBrains Mono",
+                   Menlo, monospace;
+
+  --text-ios-large-title: 2.125rem;
+  --text-ios-large-title--line-height: 2.5625rem;
+  --text-ios-large-title--letter-spacing: 0.011em;
+  --text-ios-large-title--font-weight: 700;
+
+  --text-ios-title-2: 1.375rem;
+  --text-ios-title-2--line-height: 1.75rem;
+  --text-ios-title-2--letter-spacing: -0.012em;
+  --text-ios-title-2--font-weight: 600;
+
+  --text-ios-title-3: 1.25rem;
+  --text-ios-title-3--line-height: 1.5625rem;
+  --text-ios-title-3--letter-spacing: -0.005em;
+  --text-ios-title-3--font-weight: 600;
+
+  --text-ios-headline: 1.0625rem;
+  --text-ios-headline--line-height: 1.375rem;
+  --text-ios-headline--letter-spacing: -0.025em;
+  --text-ios-headline--font-weight: 600;
+
+  --text-ios-body: 1.0625rem;
+  --text-ios-body--line-height: 1.375rem;
+  --text-ios-body--letter-spacing: -0.025em;
+  --text-ios-body--font-weight: 400;
+
+  --text-ios-callout: 1rem;
+  --text-ios-callout--line-height: 1.3125rem;
+  --text-ios-callout--letter-spacing: -0.019em;
+
+  --text-ios-subhead: 0.9375rem;
+  --text-ios-subhead--line-height: 1.25rem;
+  --text-ios-subhead--letter-spacing: -0.015em;
+
+  --text-ios-footnote: 0.8125rem;
+  --text-ios-footnote--line-height: 1.125rem;
+  --text-ios-footnote--letter-spacing: -0.006em;
+
+  --text-ios-caption: 0.75rem;
+  --text-ios-caption--line-height: 1rem;
+
+  --text-ios-caption-2: 0.6875rem;
+  --text-ios-caption-2--line-height: 0.8125rem;
+  --text-ios-caption-2--letter-spacing: 0.006em;
+
+  --text-ios-tab: 0.625rem;
+  --text-ios-tab--line-height: 0.75rem;
+  --text-ios-tab--letter-spacing: 0.006em;
+  --text-ios-tab--font-weight: 500;
+
+  --radius-ios-sm: 6px;
+  --radius-ios-md: 8px;
+  --radius-ios-group: 10px;
+  --radius-ios-field: 10px;
+  --radius-ios-seg: 9px;
+  --radius-ios-thumb: 7px;
+  --radius-ios-alert: 14px;
+  --radius-ios-card: 16px;
+  --radius-ios-sheet: 20px;
+
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-ios-out: cubic-bezier(0.17, 0.84, 0.44, 1);
+
+  --blur-ios: 20px;
+  --blur-ios-xl: 40px;
+
+  --shadow-ios-thumb: 0 3px 8px rgba(0,0,0,0.12), 0 1px 1px rgba(0,0,0,0.04);
+  --shadow-ios-icon: 0 1px 2px rgba(0,0,0,0.10), 0 4px 10px rgba(0,0,0,0.14);
+}
+
+/* ───────────────────────────── helpers ───────────────────────────── */
+
+/* The mobile shell root. 100dvh (not 100%) so the bottom chrome is never
+   hidden under mobile Safari's dynamic toolbar; overscroll-behavior stops
+   a flick at the top of a list triggering pull-to-refresh. */
+.ios-root {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  background: var(--ios-bg);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  user-select: none;
+}
+
+/* iOS hides scrollbars; .mac-scroll would draw macOS ones. */
+.ios-scroll {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.ios-scroll::-webkit-scrollbar { display: none; }
+
+/* 0.5pt hairlines. Rounds up to 1px at DPR 1, which is the right fallback. */
+.ios-hairline-b { box-shadow: inset 0 -0.5px 0 0 var(--ios-separator); }
+.ios-hairline-t { box-shadow: inset 0 0.5px 0 0 var(--ios-separator); }
+
+/* Generated iOS-style wallpaper. The shipped wallpaper.png is 2880x1800
+   landscape (1MB) — it crops to ~22% of its width on a portrait phone and
+   reads as macOS besides. */
+.ios-wallpaper {
+  background:
+    radial-gradient(118% 88% at 78% 6%, #8FD8FF 0%, rgba(143,216,255,0) 55%),
+    radial-gradient(112% 82% at 10% 24%, #C6A7FF 0%, rgba(198,167,255,0) 60%),
+    radial-gradient(132% 98% at 50% 110%, #FF9AC4 0%, rgba(255,154,196,0) 62%),
+    linear-gradient(180deg, #3E63E8 0%, #6C4BD8 46%, #C0459A 100%);
+}
+:root.dark .ios-wallpaper {
+  background:
+    radial-gradient(118% 88% at 78% 5%, #2B5BD7 0%, rgba(43,91,215,0) 58%),
+    radial-gradient(112% 85% at 10% 26%, #4B2E97 0%, rgba(75,46,151,0) 62%),
+    radial-gradient(132% 98% at 50% 108%, #8A1E5C 0%, rgba(138,30,92,0) 60%),
+    linear-gradient(180deg, #06070F 0%, #0C0B22 52%, #140A1E 100%);
+}
