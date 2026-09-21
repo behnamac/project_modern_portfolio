@@ -68,25 +68,85 @@ const Window = ({ id, title, icon, children, size, constraintsRef }) => {
   );
 };
 
+// Glyphs are drawn in a 12x12 box so they line up with the 12px (h-3 w-3)
+// buttons without any scaling blur.
+const CLOSE_GLYPH = (
+  <path d="M3.9 3.9 8.1 8.1 M8.1 3.9 3.9 8.1" strokeWidth="1.4" />
+);
+
+const MINIMIZE_GLYPH = <path d="M3.1 6 H8.9" strokeWidth="1.4" />;
+
+// Two triangles split by a diagonal gap running bottom-left to top-right.
+const ZOOM_GLYPH = (
+  <path
+    d="M3.2 3.2 H7.1 L3.2 7.1 Z M8.8 8.8 H4.9 L8.8 4.9 Z"
+    strokeWidth="0.6"
+    fill="currentColor"
+    strokeLinejoin="round"
+  />
+);
+
+// A macOS traffic-light button: a flat dot that reveals its glyph while the
+// pointer is anywhere over the cluster. Without an onClick it renders as an
+// inert, dimmed dot (the placeholder state) instead of a button.
+const TrafficLight = ({ label, color, glyphColor, glyph, onClick }) => {
+  const Tag = onClick ? "button" : "span";
+
+  return (
+    <Tag
+      {...(onClick
+        ? {
+            onClick,
+            onPointerDown: (e) => e.stopPropagation(),
+            "aria-label": label,
+          }
+        : { "aria-hidden": true })}
+      style={{ backgroundColor: color, color: glyphColor }}
+      className={`flex h-3 w-3 items-center justify-center rounded-full ring-1 ring-black/10 transition-[filter] ${
+        onClick ? "hover:brightness-95" : "opacity-60"
+      }`}
+    >
+      <svg
+        viewBox="0 0 12 12"
+        className="h-3 w-3 opacity-0 transition-opacity duration-100 group-hover:opacity-100"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+      >
+        {glyph}
+      </svg>
+    </Tag>
+  );
+};
+
 const TitleBar = ({ title, icon, onClose, onMinimize, onStartDrag }) => (
   <div
     onPointerDown={onStartDrag}
     className="relative flex h-9 shrink-0 select-none items-center justify-center gap-2 border-b border-black/10 bg-[#e7e7e9]/90 px-3 dark:border-white/10 dark:bg-[#2b2b2f]/90 cursor-grab active:cursor-grabbing touch-none"
   >
-    <div className="absolute left-3 flex items-center gap-2">
-      <button
-        onPointerDown={(e) => e.stopPropagation()}
+    {/* `group` so that hovering anywhere over the cluster reveals all three
+        glyphs at once, the way macOS does it. */}
+    <div className="group absolute left-3 flex items-center gap-2">
+      <TrafficLight
+        label="Close"
+        color="#ff5f57"
+        glyphColor="#7d0000"
+        glyph={CLOSE_GLYPH}
         onClick={onClose}
-        className="h-3 w-3 rounded-full bg-[#ff5f57] ring-1 ring-black/10 hover:brightness-90"
-        aria-label="Close"
       />
-      <button
-        onPointerDown={(e) => e.stopPropagation()}
+      <TrafficLight
+        label="Minimize"
+        color="#ffbd2e"
+        glyphColor="#9a5f00"
+        glyph={MINIMIZE_GLYPH}
         onClick={onMinimize}
-        className="h-3 w-3 rounded-full bg-[#ffbd2e] ring-1 ring-black/10 hover:brightness-90"
-        aria-label="Minimize"
       />
-      <span className="h-3 w-3 rounded-full bg-[#28c840] ring-1 ring-black/10 opacity-60" />
+      <TrafficLight
+        label="Full screen"
+        color="#28c840"
+        glyphColor="#006200"
+        glyph={ZOOM_GLYPH}
+      />
     </div>
     <div className="flex items-center gap-1.5 text-xs font-medium text-[#1d1d1f]/70 dark:text-white/70">
       {icon && <span className="h-3.5 w-3.5">{icon}</span>}
