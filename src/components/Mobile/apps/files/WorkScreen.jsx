@@ -5,7 +5,7 @@ import Screen from "../../ios/Screen";
 import NavBar from "../../ios/NavBar";
 import SearchField from "../../ios/SearchField";
 import FolderTile from "./FolderTile";
-import { BlueFolder, PdfFile } from "./icons";
+import { FolderIcon, PdfIcon } from "@/components/icons";
 
 // The "Work" folder: one folder per project plus Resume.pdf, in the 3-column
 // grid iOS Files uses in portrait.
@@ -46,14 +46,14 @@ const WorkScreen = ({ back, tabs, bottomInset }) => {
             <FolderTile
               key={project.id}
               label={project.folder}
-              glyph={<BlueFolder />}
+              glyph={<FolderIcon />}
               onPress={() => push("project", { projectId: project.id })}
             />
           ))}
           {showResume && (
             <FolderTile
               label="Resume.pdf"
-              glyph={<PdfFile />}
+              glyph={<PdfIcon />}
               onPress={() => push("resume")}
             />
           )}

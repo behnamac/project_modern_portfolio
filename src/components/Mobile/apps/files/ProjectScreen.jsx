@@ -3,8 +3,8 @@ import Screen from "../../ios/Screen";
 import NavBar from "../../ios/NavBar";
 import ListGroup from "../../ios/ListGroup";
 import ListRow from "../../ios/ListRow";
-import { BlueFolder } from "./icons";
 import { GlobeGlyph, DocGlyph } from "../../icons/Glyphs";
+import { FolderIcon } from "@/components/icons";
 
 // One project, reached by tapping its folder. Same content model as the
 // desktop ProjectDetail (name, folder, description, tech, live/repo links),
@@ -34,7 +34,7 @@ const ProjectScreen = ({ back, tabs, bottomInset, projectId }) => {
     >
       <div className="flex flex-col items-center px-6 pb-2 pt-6 text-center">
         <span className="h-20 w-20">
-          <BlueFolder />
+          <FolderIcon />
         </span>
         <h1 className="mt-3 text-ios-title-3 text-ios-label">{project.name}</h1>
         <p className="mt-1 text-ios-footnote text-ios-label-2">{project.folder}</p>

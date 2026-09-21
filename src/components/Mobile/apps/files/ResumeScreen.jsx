@@ -3,8 +3,8 @@ import Screen from "../../ios/Screen";
 import NavBar from "../../ios/NavBar";
 import ListGroup from "../../ios/ListGroup";
 import ListRow from "../../ios/ListRow";
-import { PdfFile } from "./icons";
 import { GlobeGlyph, ShareGlyph } from "../../icons/Glyphs";
+import { PdfIcon } from "@/components/icons";
 
 // Resume.pdf, opened from the Work folder — a Quick Look-ish preview.
 //
@@ -18,7 +18,7 @@ const ResumeScreen = ({ back, tabs, bottomInset }) => (
   >
     <div className="flex flex-col items-center px-6 pb-2 pt-8 text-center">
       <span className="h-24 w-24">
-        <PdfFile />
+        <PdfIcon />
       </span>
       <h1 className="mt-4 text-ios-title-3 text-ios-label">{PROFILE.name}</h1>
       <p className="mt-1 text-ios-footnote text-ios-label-2">

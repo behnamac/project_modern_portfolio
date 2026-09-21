@@ -14,7 +14,13 @@ const AppIconTile = ({ app, onOpen, showLabel = true, size = 60 }) => {
       aria-label={app.name}
       className="flex flex-col items-center"
     >
-      <span className="block shadow-ios-icon" style={{ width: size, height: size, borderRadius: size * 0.2237 }}>
+      {/* drop-shadow, not box-shadow: these are transparent PNGs with their
+          own silhouettes, so a box shadow would draw a rectangle behind the
+          shaped ones (Trash especially). */}
+      <span
+        className="block drop-shadow-[0_2px_5px_rgba(0,0,0,0.30)]"
+        style={{ width: size, height: size }}
+      >
         <Icon />
       </span>
       {showLabel && (
